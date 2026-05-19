@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKTUM — Умная защита квартиры для посуточной аренды в Москве</title>
+    <meta name="description" content="Умные замки, камеры, датчики шума и протечек для посуточной аренды в Москве. Установка за 1 день. Контроль из телефона 24/7.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0A0E1A;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f2e;
+            --accent: #0066FF;
+            --accent-hover: #0052cc;
+            --accent-glow: rgba(0, 102, 255, 0.3);
+            --text-primary: #E2E8F0;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            --success: #00D4AA;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --border: rgba(255,255,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        /* Navigation */
+        .navbar {
+            position: fixed; top: 0; width: 100%; padding: 1rem 0;
+            background: rgba(10, 14, 26, 0.9); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled { padding: 0.7rem 0; background: rgba(10, 14, 26, 0.98); }
+        .nav-container {
+            max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); text-decoration: none; letter-spacing: -0.02em; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-cta {
+            background: var(--accent); color: white; padding: 0.6rem 1.5rem;
+            border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; padding: 8rem 2rem 4rem;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 102, 255, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .hero-grid {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+            background-image: 
+                linear-gradient(rgba(0, 102, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .hero-particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; overflow: hidden; }
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: var(--accent);
+            border-radius: 50%; opacity: 0.3; animation: float 15s infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; } 90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+        .hero-content { position: relative; z-index: 10; max-width: 900px; text-align: center; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(0, 102, 255, 0.1); border: 1px solid rgba(0, 102, 255, 0.3);
+            padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
+            color: var(--accent); margin-bottom: 2rem; animation: fadeInUp 0.8s ease;
+        }
+        .hero-badge .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
+            line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.03em;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--text-secondary);
+            max-width: 600px; margin: 0 auto 2.5rem; font-weight: 400;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero-cta-group {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+        .btn-primary {
+            background: var(--accent); color: white; padding: 1rem 2.5rem;
+            border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem;
+            border: none; cursor: pointer;
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-secondary {
+            background: transparent; color: var(--text-primary); padding: 1rem 2.5rem;
+            border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem;
+            border: 1px solid var(--border); transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-stats {
+            display: flex; justify-content: center; gap: 3rem; margin-top: 4rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        section { padding: 6rem 2rem; position: relative; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label {
+            display: inline-block; color: var(--accent); font-size: 0.85rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;
+        }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem; letter-spacing: -0.02em; }
+        .section-subtitle { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Pain Points */
+        .pain-section { background: var(--bg-secondary); }
+        .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        .pain-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .pain-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: var(--danger); opacity: 0.6;
+        }
+        .pain-card:hover {
+            transform: translateY(-5px); border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.1);
+        }
+        .pain-icon {
+            width: 48px; height: 48px; background: rgba(239, 68, 68, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.5rem; font-size: 1.5rem;
+        }
+        .pain-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; font-weight: 700; }
+        .pain-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+
+        /* Solutions */
+        .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .solution-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 2rem; text-align: center; transition: all 0.3s; position: relative;
+        }
+        .solution-card::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 0; height: 3px; background: var(--accent); transition: width 0.3s;
+            border-radius: 3px 3px 0 0;
+        }
+        .solution-card:hover {
+            transform: translateY(-5px); border-color: rgba(0, 102, 255, 0.3);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+        .solution-card:hover::after { width: 80%; }
+        .solution-icon {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), rgba(0, 212, 170, 0.1));
+            border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem; font-size: 1.8rem;
+        }
+        .solution-card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; font-weight: 700; }
+        .solution-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+        .solution-tag {
+            display: inline-block; background: rgba(0, 212, 170, 0.1); color: var(--success);
+            padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem;
+            font-weight: 600; margin-top: 1rem;
+        }
+
+        /* How It Works */
+        .how-section { background: var(--bg-secondary); }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; position: relative; }
+        .step { text-align: center; position: relative; }
+        .step-number {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: 800; color: white;
+            margin: 0 auto 1.5rem; position: relative; z-index: 2;
+        }
+        .step h3 { font-size: 1.3rem; margin-bottom: 0.8rem; font-weight: 700; }
+        .step p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
+
+        /* Pricing */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+        .pricing-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 2.5rem; position: relative; transition: all 0.3s;
+        }
+        .pricing-card.featured {
+            border-color: var(--accent); box-shadow: 0 0 40px var(--accent-glow);
+        }
+        .pricing-card.featured::before {
+            content: 'РЕКОМЕНДУЕМ'; position: absolute; top: -12px; left: 50%;
+            transform: translateX(-50%); background: var(--accent); color: white;
+            padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.75rem;
+            font-weight: 700; letter-spacing: 0.05em;
+        }
+        .pricing-card:hover { transform: translateY(-5px); }
+        .pricing-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .pricing-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .pricing-price { font-size: 3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .pricing-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        .pricing-period { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+        .pricing-features { list-style: none; margin-bottom: 2rem; }
+        .pricing-features li {
+            padding: 0.7rem 0; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 0.8rem; font-size: 0.95rem;
+        }
+        .pricing-features li:last-child { border-bottom: none; }
+        .check { color: var(--success); font-weight: 700; }
+        .pricing-btn {
+            width: 100%; padding: 1rem; border-radius: 12px; font-weight: 600;
+            font-size: 1rem; cursor: pointer; transition: all 0.3s; border: none;
+        }
+        .pricing-btn.primary { background: var(--accent); color: white; }
+        .pricing-btn.primary:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
+        .pricing-btn.secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .pricing-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Trust */
+        .trust-section { background: var(--bg-secondary); }
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .trust-item { display: flex; align-items: flex-start; gap: 1rem; }
+        .trust-icon {
+            width: 48px; height: 48px; background: rgba(0, 102, 255, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+        .trust-item h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .trust-item p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* CTA */
+        .cta-section { position: relative; overflow: hidden; }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
+        }
+        .cta-content { position: relative; z-index: 2; text-align: center; max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; margin-bottom: 1rem; }
+        .cta-content p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; }
+
+        /* Form */
+        .contact-form {
+            max-width: 500px; margin: 0 auto; background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block; margin-bottom: 0.5rem; font-size: 0.9rem;
+            font-weight: 500; color: var(--text-secondary);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.9rem 1rem; background: var(--bg-primary);
+            border: 1px solid var(--border); border-radius: 10px;
+            color: var(--text-primary); font-size: 1rem; font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-submit {
+            width: 100%; padding: 1rem; background: var(--accent); color: white;
+            border: none; border-radius: 12px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .form-submit:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary); border-top: 1px solid var(--border);
+            padding: 3rem 2rem; text-align: center;
+        }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .footer-logo span { color: var(--accent); }
+        .footer-contacts { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .footer-contacts a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .footer-contacts a:hover { color: var(--accent); }
+        .footer-copy { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-cta-group { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            section { padding: 4rem 1.5rem; }
+            .pricing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">OK<span>TUM</span></a>
+            <ul class="nav-links">
+                <li><a href="#problems">Проблемы</a></li>
+                <li><a href="#solutions">Решения</a></li>
+                <li><a href="#how">Как работает</a></li>
+                <li><a href="#pricing">Тарифы</a></li>
+                <li><a href="#contact" class="nav-cta">Бесплатная консультация</a></li>
+            </ul>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Работаем в Москве и МО
+            </div>
+            <h1>
+                Контролируй квартиру<br>
+                <span class="gradient">даже в другом городе</span>
+            </h1>
+            <p class="hero-subtitle">
+                Умные замки, камеры и датчики для посуточной аренды. 
+                Узнаёшь о проблеме раньше, чем соседи позвонят в полицию.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#contact" class="btn-primary">
+                    Рассчитать стоимость
+                    <span>→</span>
+                </a>
+                <a href="#solutions" class="btn-secondary">
+                    Посмотреть оборудование
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">1 день</div>
+                    <div class="stat-label">Установка</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Мониторинг</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1 кв.</div>
+                    <div class="stat-label">Минимальный заказ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="pain-section" id="problems">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Проблемы</div>
+                <h2 class="section-title">Что беспокоит арендодателей</h2>
+                <p class="section-subtitle">
+                    Каждая из этих ситуаций стоит денег, нервов и репутации. Мы знаем, как этого избежать.
+                </p>
+            </div>
+            <div class="pain-grid">
+                <div class="pain-card reveal">
+                    <div class="pain-icon">🔊</div>
+                    <h3>Шумные гости</h3>
+                    <p>Соседи звонят в полицию, приезжает участковый, штрафы и конфликты. Вы узнаёте о проблеме, когда уже поздно.</p>
+                </div>
+                <div class="pain-card reveal">
+                    <div class="pain-icon">💧</div>
+                    <h3>Протечки воды</h3>
+                    <p>Затопили соседей снизу — ремонт за ваш счёт. Стоимость ущерба от 100 000 ₽. Страховка не всегда покрывает.</p>
+                </div>
+                <div class="pain-card reveal">
+                    <div class="pain-icon">🚪</div>
+                    <h3>Незаконное заселение</h3>
+                    <p>Кто реально живёт в квартире? Больше людей, чем заявлено. Вечеринки и порча имущества.</p>
+                </div>
+                <div class="pain-card reveal">
+                    <div class="pain-icon">🔑</div>
+                    <h3>Сломанные замки</h3>
+                    <p>Гость потерял ключи или не сдал их. Менять замок после каждого заезда — дорого и неудобно.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions -->
+    <section class="solutions-section" id="solutions">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Решения</div>
+                <h2 class="section-title">Оборудование OKTUM</h2>
+                <p class="section-subtitle">
+                    Устанавливаем под ваши задачи. Управляете всем из телефона — где бы вы ни были.
+                </p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card reveal">
+                    <div class="solution-icon">🔐</div>
+                    <h3>Умный замок</h3>
+                    <p>Кодовый доступ для каждого гостя. Открываете дверь удалённо. Не нужно встречать лично.</p>
+                    <span class="solution-tag">Удалённое управление</span>
+                </div>
+                <div class="solution-card reveal">
+                    <div class="solution-icon">📹</div>
+                    <h3>Уличная камера</h3>
+                    <p>Видите, кто подходит к двери. Запись хранится 30 дней. Ночное видение и детекция движения.</p>
+                    <span class="solution-tag">Запись 30 дней</span>
+                </div>
+                <div class="solution-card reveal">
+                    <div class="solution-icon">📢</div>
+                    <h3>Датчик шума</h3>
+                    <p>Push-уведомление, когда уровень превышает норму. Решаете проблему до звонка соседей.</p>
+                    <span class="solution-tag">Мгновенное оповещение</span>
+                </div>
+                <div class="solution-card reveal">
+                    <div class="solution-icon">💧</div>
+                    <h3>Датчик протечки</h3>
+                    <p>Сработает при первых каплях. SMS и push на телефон. Время реагировать — до катастрофы.</p>
+                    <span class="solution-tag">Защита от затопления</span>
+                </div>
+                <div class="solution-card reveal">
+                    <div class="solution-icon">👁️</div>
+                    <h3>Датчик движения</h3>
+                    <p>Знаете, когда гость зашёл и вышел. Контроль количества людей. Сигнализация при проникновении.</p>
+                    <span class="solution-tag">Контроль доступа</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section" id="how">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Процесс</div>
+                <h2 class="section-title">Как начать работать с OKTUM</h2>
+                <p class="section-subtitle">
+                    От заявки до полного контроля — три простых шага
+                </p>
+            </div>
+            <div class="steps">
+                <div class="step reveal">
+                    <div class="step-number">1</div>
+                    <h3>Бесплатный аудит</h3>
+                    <p>Приезжаем, оцениваем квартиру, подбираем оборудование под ваш бюджет и задачи. Составляем смету на месте.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-number">2</div>
+                    <h3>Установка за 1 день</h3>
+                    <p>Монтируем всё оборудование, настраиваем приложение, обучаем пользоваться. Вы контролируете процесс.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-number">3</div>
+                    <h3>Контроль 24/7</h3>
+                    <p>Получаете уведомления на телефон. Управляете доступом удалённо. Техподдержка всегда на связи.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Тарифы</div>
+                <h2 class="section-title">Выберите подходящую модель</h2>
+                <p class="section-subtitle">
+                    Начните с покупки оборудования или сразу перейдите на подписку
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card reveal">
+                    <div class="pricing-name">Покупка оборудования</div>
+                    <div class="pricing-desc">Для тех, кто готов инвестировать разово</div>
+                    <div class="pricing-price">от 25 000 ₽</div>
+                    <div class="pricing-period">разовый платёж за комплект</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Полная комплектация под квартиру</li>
+                        <li><span class="check">✓</span> Установка и настройка</li>
+                        <li><span class="check">✓</span> Обучение работе с системой</li>
+                        <li><span class="check">✓</span> Гарантия 1 год</li>
+                        <li><span class="check">✓</span> Техподдержка (первый месяц)</li>
+                    </ul>
+                    <button class="pricing-btn secondary">Оставить заявку</button>
+                </div>
+                <div class="pricing-card featured reveal">
+                    <div class="pricing-name">OKTUM Подписка</div>
+                    <div class="pricing-desc">Оборудование в аренду + полное обслуживание</div>
+                    <div class="pricing-price">от 3 500 ₽<span>/мес</span></div>
+                    <div class="pricing-period">за квартиру, без скрытых платежей</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Всё оборудование в аренду</li>
+                        <li><span class="check">✓</span> Установка и настройка</li>
+                        <li><span class="check">✓</span> Обслуживание и замена</li>
+                        <li><span class="check">✓</span> Техподдержка 24/7</li>
+                        <li><span class="check">✓</span> Обновления ПО</li>
+                        <li><span class="check">✓</span> Можно отключиться в любой момент</li>
+                    </ul>
+                    <button class="pricing-btn primary">Подключить подписку</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label">Почему мы</div>
+                <h2 class="section-title">Работаем так, как удобно вам</h2>
+            </div>
+            <div class="trust-grid">
+                <div class="trust-item reveal">
+                    <div class="trust-icon">🏠</div>
+                    <div>
+                        <h4>Работаем с 1 квартирой</h4>
+                        <p>Не нужно десяток объектов. Начните с одной — масштабируйтесь, когда будете готовы.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon">⚡</div>
+                    <div>
+                        <h4>Установка в день обращения</h4>
+                        <p>Замер утром — работающая система вечером. Без ожидания и бюрократии.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon">📍</div>
+                    <div>
+                        <h4>Москва и Московская область</h4>
+                        <p>Знаем специфику рынка аренды в регионе. Приедем в любую точку МКАДа и за его пределами.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon">🤝</div>
+                    <div>
+                        <h4>Персональный подход</h4>
+                        <p>Один специалист от заявки до поддержки. Знает ваш объект лично, не переключает на колл-центр.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Contact -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Получите бесплатный аудит квартиры</h2>
+                <p>
+                    Приедем, оценим риски, подберём оборудование и рассчитаем стоимость. 
+                    Без обязательств и скрытых платежей.
+                </p>
+            </div>
+            <div class="contact-form reveal">
+                <form onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в течение часа.');">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" placeholder="Иван" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" placeholder="+7 (999) 000-00-00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Количество квартир</label>
+                        <select required>
+                            <option value="">Выберите</option>
+                            <option value="1">1 квартира</option>
+                            <option value="2-3">2-3 квартиры</option>
+                            <option value="4-5">4-5 квартир</option>
+                            <option value="6-10">6-10 квартир</option>
+                            <option value="10+">Более 10</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Что интересует</label>
+                        <select>
+                            <option value="">Всё оборудование</option>
+                            <option value="lock">Умный замок</option>
+                            <option value="camera">Видеокамера</option>
+                            <option value="noise">Датчик шума</option>
+                            <option value="leak">Датчик протечки</option>
+                            <option value="motion">Датчик движения</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий (необязательно)</label>
+                        <textarea placeholder="Расскажите о вашей ситуации..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">OK<span>TUM</span></div>
+            <div class="footer-contacts">
+                <a href="tel:+79990000000">+7 (999) 000-00-00</a>
+                <a href="mailto:info@oktum.ru">info@oktum.ru</a>
+                <span>Москва и Московская область</span>
+            </div>
+            <div class="footer-copy">
+                © 2026 OKTUM. Умная защита квартир для посуточной аренды.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Reveal on scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Pricing buttons scroll to form
+        document.querySelectorAll('.pricing-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('contact').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
