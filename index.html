@@ -310,6 +310,49 @@
         }
         .form-submit:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
 
+        /* Messenger Block */
+        .messenger-block {
+            max-width: 500px; margin: 2rem auto 0; text-align: center;
+            padding: 2rem; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+        .messenger-block h3 {
+            font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem;
+        }
+        .messenger-block p {
+            color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;
+        }
+        .messenger-buttons {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+        }
+        .messenger-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 600;
+            font-size: 0.95rem; text-decoration: none; transition: all 0.3s;
+        }
+        .telegram-btn {
+            background: #2AABEE; color: white;
+        }
+        .telegram-btn:hover {
+            background: #229ED9; transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(42, 171, 238, 0.3);
+        }
+        .max-btn {
+            background: var(--bg-primary); color: var(--text-secondary);
+            border: 1px solid var(--border); cursor: default; opacity: 0.6;
+        }
+        .messenger-icon {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700;
+        }
+        .telegram-btn .messenger-icon {
+            background: rgba(255,255,255,0.2);
+        }
+        .max-btn .messenger-icon {
+            background: var(--accent); color: white;
+        }
+
         /* Footer */
         footer {
             background: var(--bg-secondary); border-top: 1px solid var(--border);
@@ -336,6 +379,8 @@
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
             section { padding: 4rem 1.5rem; }
             .pricing-grid { grid-template-columns: 1fr; }
+            .messenger-buttons { flex-direction: column; align-items: center; }
+            .messenger-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -621,6 +666,20 @@
                         }(window,0,"amo_forms_","params","load","loaded");
                     </script>
                     <script id="amoforms_script_1712810" async="async" charset="utf-8" src="https://forms.amocrm.ru/forms/assets/js/amoforms.js"></script>
+                </div>
+            </div>
+            <div class="messenger-block reveal">
+                <h3>Не любите звонить? Пишите.</h3>
+                <p>Понимаем. Не все любят говорить по телефону — и это нормально. Напишите нам в мессенджер — ответим быстро, по делу и без лишних вопросов.</p>
+                <div class="messenger-buttons">
+                    <a href="tg://resolve?domain=@OKTUM_bot" class="messenger-btn telegram-btn">
+                        <span class="messenger-icon">✈</span>
+                        Написать в Telegram
+                    </a>
+                    <div class="messenger-btn max-btn" title="Скоро будет доступно">
+                        <span class="messenger-icon">M</span>
+                        MAX
+                    </div>
                 </div>
             </div>
         </div>
