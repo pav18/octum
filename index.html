@@ -309,17 +309,6 @@
             cursor: pointer; transition: all 0.3s;
         }
         .form-submit:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
-        .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .success-message { text-align: center; padding: 2rem; }
-        .success-icon {
-            width: 64px; height: 64px; margin: 0 auto 1rem;
-            background: var(--success); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; font-weight: 700; color: white;
-        }
-        .success-message h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .success-message p { color: var(--text-secondary); }
 
         /* Footer */
         footer {
@@ -610,45 +599,29 @@
                     Без обязательств и скрытых платежей.
                 </p>
             </div>
-            <div class="contact-form reveal">
-                <form id="contactForm" action="https://formsubmit.co/info@oktum.ru" method="POST" target="_blank">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" value="Новая заявка ОКТУМ">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_next" value="https://oktum.ru/#contact">
-                    <div class="form-group">
-                        <label>Ваше имя</label>
-                        <input type="text" name="name" placeholder="Иван" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="tel" name="phone" placeholder="+7 (900) 000-00-00" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Количество квартир</label>
-                        <select name="apartments" required>
-                            <option value="">Выберите</option>
-                            <option value="1">1 квартира</option>
-                            <option value="2-3">2-3 квартиры</option>
-                            <option value="4-5">4-5 квартир</option>
-                            <option value="6-10">6-10 квартир</option>
-                            <option value="10+">Более 10</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Что интересует</label>
-                        <select name="interest">
-                            <option value="">Всё оборудование</option>
-                            <option value="Stand">Пакет ОКТУМ Стандарт</option>
-                            <option value="Plus">ОКТУМ Плюс</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Комментарий (необязательно)</label>
-                        <textarea name="comment" placeholder="Расскажите о вашей ситуации..."></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Отправить заявку</button>
-                </form>
+            <div class="contact-form reveal" style="background: transparent; border: none; padding: 0; box-shadow: none; max-width: 100%;">
+                <div class="amoforms_container" style="text-align: center;">
+                    <script>
+                        !function(a,m,o,c,r,m) {
+                            a[o+c] = a[o+c] || {
+                                setMeta: function(p) {
+                                    this.params=(this.params || []).concat([p])
+                                },
+                                id: "1712810",
+                                hash: "8bf7c0b090a5cb601ea65a13faa5d7e5",
+                                locale:"ru",
+                                dp: {},
+                            },
+                            a[o+r] = a[o+r] || function(f) {
+                                a[o+r].f = (a[o+r].f || []).concat([f])
+                            },
+                            a[o+m] = a[o+m] || function(f,k) {
+                                a[o+m].f = (a[o+m].f || []).concat([[f,k]])
+                            }
+                        }(window,0,"amo_forms_","params","load","loaded");
+                    </script>
+                    <script id="amoforms_script_1712810" async="async" charset="utf-8" src="https://forms.amocrm.ru/forms/assets/js/amoforms.js"></script>
+                </div>
             </div>
         </div>
     </section>
@@ -728,41 +701,41 @@
                 });
             });
         });
+    </script>
 
-        // Form submit via AJAX with fallback
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const submitBtn = form.querySelector('.form-submit');
-            const origText = submitBtn.textContent;
-            submitBtn.textContent = 'Отправка...';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(form);
-            formData.set('_next', window.location.href);
-
+    <!-- Обработчик изменения размера iframe amoCRM -->
+    <script>
+        window.addEventListener('message', function(e){
             try {
-                const res = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-                const data = await res.json().catch(() => null);
+                var params = JSON.parse(e.data);
+                if (params.func === 'getWindowWidth' || params.func === 'getWindowWidthIsModal'){
+                    var window_W = window.innerWidth,
+                        iframe = document.querySelector('#amoforms_iframe_' + amo_forms_params.id),
+                        column_wrapper = iframe.contentDocument.body.querySelector('#amofroms_main_wrapper'),
+                        parent_style = window.getComputedStyle(iframe.contentDocument.forms[0].parentNode),
+                        iframe_max_width = parseInt(parent_style.maxWidth) || 0,
+                        iframe_height,
+                        json_str;
 
-                if (res.ok || (data && data.success !== false)) {
-                    form.innerHTML = '<div class="success-message"><div class="success-icon">✓</div><h3>Спасибо!</h3><p>Мы свяжемся с вами в ближайшее время.</p></div>';
-                } else {
-                    throw new Error('Response not OK');
+                    if (window_W <= iframe_max_width) {
+                        iframe.style.maxWidth = '440px';
+                        column_wrapper.classList.add('amoforms_column');
+                    } else {
+                        iframe.style.maxWidth = 'none';
+                        column_wrapper.classList.remove('amoforms_column');
+                    }
+
+                    iframe_height = iframe.contentDocument.body.offsetHeight;
+                    iframe.style.height = iframe_height + 'px';
+                    iframe.style.width = iframe_max_width < window_W ? iframe_max_width + 'px' : '100%';
+
+                    json_str = '{"parent_window_width": ' + window_W + '}';
+                    iframe.contentWindow.postMessage(json_str, iframe.src);
                 }
             } catch (err) {
-                console.warn('AJAX failed, falling back to form submit:', err);
-                // Fallback: открываем FormSubmit в новой вкладке
-                form.submit();
-            } finally {
-                submitBtn.textContent = origText;
-                submitBtn.disabled = false;
+                //
             }
-        });
+        }, false);
     </script>
 
 </body>
