@@ -309,6 +309,17 @@
             cursor: pointer; transition: all 0.3s;
         }
         .form-submit:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
+        .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .success-message { text-align: center; padding: 2rem; }
+        .success-icon {
+            width: 64px; height: 64px; margin: 0 auto 1rem;
+            background: var(--success); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 700; color: white;
+        }
+        .success-message h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .success-message p { color: var(--text-secondary); }
 
         /* Footer */
         footer {
@@ -600,10 +611,11 @@
                 </p>
             </div>
             <div class="contact-form reveal">
-                <form action="https://formsubmit.co/info@oktum.ru" method="POST">
+                <form id="contactForm" action="https://formsubmit.co/info@oktum.ru" method="POST">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="Новая заявка ОКТУМ">
                     <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" value="">
                     <div class="form-group">
                         <label>Ваше имя</label>
                         <input type="text" name="name" placeholder="Иван" required>
@@ -715,6 +727,33 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Form submit via AJAX
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const submitBtn = form.querySelector('.form-submit');
+            const origText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            formData.set('_next', '');
+
+            try {
+                const res = await fetch(form.action, { method: 'POST', body: formData });
+                if (res.ok) {
+                    form.innerHTML = '<div class="success-message"><div class="success-icon">✓</div><h3>Спасибо!</h3><p>Мы свяжемся с вами в ближайшее время.</p></div>';
+                } else {
+                    alert('Ошибка отправки. Попробуйте ещё раз или напишите на info@oktum.ru');
+                }
+            } catch {
+                alert('Ошибка отправки. Попробуйте ещё раз или напишите на info@oktum.ru');
+            } finally {
+                submitBtn.textContent = origText;
+                submitBtn.disabled = false;
+            }
         });
     </script>
 
