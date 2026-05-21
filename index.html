@@ -611,7 +611,7 @@
                 </p>
             </div>
             <div class="contact-form reveal">
-                <form id="contactForm" action="https://formsubmit.co/info@oktum.ru" method="POST">
+                <form id="contactForm" action="https://formsubmit.co/info@oktum.ru" method="POST" target="_blank">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="Новая заявка ОКТУМ">
                     <input type="hidden" name="_template" value="table">
@@ -729,7 +729,7 @@
             });
         });
 
-        // Form submit via AJAX
+        // Form submit via AJAX with fallback
         const form = document.getElementById('contactForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -747,9 +747,7 @@
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
-                console.log('FormSubmit response status:', res.status);
                 const data = await res.json().catch(() => null);
-                console.log('FormSubmit response:', data);
 
                 if (res.ok || (data && data.success !== false)) {
                     form.innerHTML = '<div class="success-message"><div class="success-icon">✓</div><h3>Спасибо!</h3><p>Мы свяжемся с вами в ближайшее время.</p></div>';
@@ -757,8 +755,8 @@
                     throw new Error('Response not OK');
                 }
             } catch (err) {
-                console.error('Form submit error:', err);
-                // Fallback: стандартная отправка формы с редиректом
+                console.warn('AJAX failed, falling back to form submit:', err);
+                // Fallback: открываем FormSubmit в новой вкладке
                 form.submit();
             } finally {
                 submitBtn.textContent = origText;
