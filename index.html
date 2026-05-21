@@ -229,6 +229,7 @@
         .pricing-card {
             background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 20px; padding: 2.5rem; position: relative; transition: all 0.3s;
+            display: flex; flex-direction: column;
         }
         .pricing-card.featured {
             border-color: var(--accent); box-shadow: 0 0 40px var(--accent-glow);
@@ -255,6 +256,7 @@
         .pricing-btn {
             width: 100%; padding: 1rem; border-radius: 12px; font-weight: 600;
             font-size: 1rem; cursor: pointer; transition: all 0.3s; border: none;
+            margin-top: auto;
         }
         .pricing-btn.primary { background: var(--accent); color: white; }
         .pricing-btn.primary:hover { background: var(--accent-hover); box-shadow: 0 4px 20px var(--accent-glow); }
@@ -326,9 +328,10 @@
             display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
         }
         .messenger-btn {
-            display: inline-flex; align-items: center; gap: 0.6rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
             padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 600;
             font-size: 0.95rem; text-decoration: none; transition: all 0.3s;
+            width: 260px; height: 48px; flex-shrink: 0;
         }
         .telegram-btn {
             background: #2AABEE; color: white;
@@ -338,8 +341,11 @@
             box-shadow: 0 4px 20px rgba(42, 171, 238, 0.3);
         }
         .max-btn {
-            background: var(--bg-primary); color: var(--text-secondary);
-            border: 1px solid var(--border); cursor: default; opacity: 0.6;
+            background: #7B2FBE; color: white;
+        }
+        .max-btn:hover {
+            background: #6A28A8; transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(123, 47, 190, 0.3);
         }
         .messenger-icon {
             width: 28px; height: 28px; border-radius: 50%;
@@ -421,7 +427,7 @@
             </p>
             <div class="hero-cta-group">
                 <a href="#contact" class="btn-primary">
-                    Рассчитать стоимость
+                    Бесплатная консультация
                     <span>→</span>
                 </a>
                 <a href="#solutions" class="btn-secondary">
@@ -560,7 +566,7 @@
                 </p>
             </div>
             <div class="pricing-grid">
-                <div class="pricing-card reveal">
+                <div class="pricing-card featured reveal">
                     <div class="pricing-name">ОКТУМ Стандарт</div>
                     <div class="pricing-desc">Для тех, кто готов инвестировать разово</div>
                     <div class="pricing-price">от 65 000 ₽</div>
@@ -573,9 +579,9 @@
                         <li><span class="check">✓</span> Техподдержка (бесплатно первый месяц)</li>
 						<li><span class="check"> </span>  </li>
                     </ul>
-                    <button class="pricing-btn secondary">Оставить заявку</button>
+                    <button class="pricing-btn primary">Оставить заявку</button>
                 </div>
-                <div class="pricing-card featured reveal">
+                <div class="pricing-card reveal">
                     <div class="pricing-name">ОКТУМ Плюс</div>
                     <div class="pricing-desc">Полный контроль</div>
                     <div class="pricing-price">от 85 000 ₽<span>/мес</span></div>
@@ -588,7 +594,7 @@
                         <li><span class="check">✓</span> Обновления ПО</li>
                         <li><span class="check">✓</span> Техподдержка (бесплатно два месяца)</li>
                     </ul>
-                    <button class="pricing-btn primary">Оставить заявку</button>
+                    <button class="pricing-btn secondary">Оставить заявку</button>
                 </div>
             </div>
         </div>
@@ -672,14 +678,14 @@
                 <h3>Не любите звонить? Пишите.</h3>
                 <p>Понимаем. Не все любят говорить по телефону — и это нормально. Напишите нам в мессенджер — ответим быстро, по делу и без лишних вопросов.</p>
                 <div class="messenger-buttons">
-                    <a href="tg://resolve?domain=@OKTUM_bot" class="messenger-btn telegram-btn">
+                    <a href="tg://resolve?domain=OKTUM_bot" class="messenger-btn telegram-btn">
                         <span class="messenger-icon">✈</span>
                         Написать в Telegram
                     </a>
-                    <div class="messenger-btn max-btn" title="Скоро будет доступно">
+                    <a href="#" class="messenger-btn max-btn" title="Скоро будет доступно">
                         <span class="messenger-icon">M</span>
-                        MAX
-                    </div>
+                        Написать в MAX
+                    </a>
                 </div>
             </div>
         </div>
@@ -750,6 +756,11 @@
                     });
                 }
             });
+        });
+
+        // MAX button placeholder
+        document.querySelector('.max-btn')?.addEventListener('click', function(e) {
+            e.preventDefault();
         });
 
         // Pricing buttons scroll to form
