@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Страница не найдена — OKTUM</title>
+    <meta name="description" content="Страница не найдена. Вернитесь на главную OKTUM — умная защита квартиры для посуточной аренды.">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#0A0E1A">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .error-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem 4rem; text-align: center; }
+        .error-code { font-size: 8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--success)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+        .error-title { font-size: 1.5rem; color: var(--text-primary); margin-top: 1rem; }
+        .error-desc { color: var(--text-secondary); margin-top: 0.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .error-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+        .error-links a { padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s; }
+        .error-links .btn-primary { background: var(--accent); color: white; }
+        .error-links .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .error-links .btn-secondary { border: 1px solid var(--border); color: var(--text-secondary); }
+        .error-links .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="/" class="logo">OK<span>TUM</span></a>
+        <ul class="nav-links">
+            <li><a href="/#problems">Проблемы</a></li>
+            <li><a href="/#solutions">Решения</a></li>
+            <li><a href="/#process">Как работает</a></li>
+            <li><a href="/#pricing">Тарифы</a></li>
+            <li><a href="/kontakty/">Контакты</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Бесплатная консультация</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
+    </div>
+</nav>
+
+<main class="error-page">
+    <div class="hero-content">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-desc">Возможно, страница была перемещена или удалена. Но ваша квартира всё ещё под защитой.</p>
+        <div class="error-links">
+            <a href="/" class="btn-primary">← На главную</a>
+            <a href="/kontakty/" class="btn-secondary">Связаться с нами</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">OK<span>TUM</span></div>
+        <div class="footer-contacts">
+            <a href="tel:+7 (993) 600-18-06">+7 (993) 600-18-06</a>
+            <a href="mailto:info@oktum.ru">info@oktum.ru</a>
+            <span>Москва и Московская область</span>
+        </div>
+        <div class="footer-copy">
+            © 2026 ОКТУМ. Умная защита квартир для посуточной аренды.
+        </div>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

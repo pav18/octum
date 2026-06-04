@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт на обслуживании — OKTUM</title>
+    <meta name="description" content="Ведутся технические работы. Скоро вернёмся.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0A0E1A">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .maintenance-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+        .maintenance-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .maintenance-title { font-size: 1.5rem; color: var(--text-primary); margin-top: 1rem; }
+        .maintenance-desc { color: var(--text-secondary); margin-top: 0.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .maintenance-loader { display: flex; gap: 0.5rem; justify-content: center; margin-top: 2rem; }
+        .maintenance-loader span { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: pulse 1.5s infinite; }
+        .maintenance-loader span:nth-child(2) { animation-delay: 0.3s; }
+        .maintenance-loader span:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <main class="maintenance-page">
+        <div>
+            <div class="maintenance-icon">🔧</div>
+            <h1 class="maintenance-title">Ведутся технические работы</h1>
+            <p class="maintenance-desc">Скоро всё заработает. Пожалуйста, зайдите через несколько минут.</p>
+            <div class="maintenance-loader"><span></span><span></span><span></span></div>
+        </div>
+    </main>
+</body>
+</html>

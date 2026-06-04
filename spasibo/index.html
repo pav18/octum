@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0A0E1A">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Спасибо за заявку — OKTUM</title>
+    <meta name="description" content="Спасибо за заявку. Мы свяжемся с вами в ближайшее время.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .success-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 2rem 4rem; text-align: center; }
+        .success-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(0, 212, 170, 0.1); border: 2px solid var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem; animation: checkBounce 0.6s ease; }
+        @keyframes checkBounce { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .success-title { font-size: 2rem; font-weight: 700; color: var(--text-primary); }
+        .success-desc { color: var(--text-secondary); margin-top: 0.8rem; font-size: 1.1rem; }
+        .success-phone { display: block; margin-top: 1.5rem; font-size: 1.3rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+        .success-phone:hover { color: var(--accent-hover); }
+        .success-hint { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem; }
+        .success-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+        .success-links a { padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s; }
+        .success-links .btn-primary { background: var(--accent); color: white; }
+        .success-links .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+        .success-links .btn-tg { background: #0088cc; color: white; }
+        .success-links .btn-tg:hover { opacity: 0.9; transform: translateY(-1px); }
+        .success-links .btn-outline { border: 1px solid var(--border); color: var(--text-secondary); }
+        .success-links .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="/" class="logo">OK<span>TUM</span></a>
+        <ul class="nav-links">
+            <li><a href="/#problems">Проблемы</a></li>
+            <li><a href="/#solutions">Решения</a></li>
+            <li><a href="/#process">Как работает</a></li>
+            <li><a href="/#pricing">Тарифы</a></li>
+            <li><a href="/kontakty/">Контакты</a></li>
+        </ul>
+        <a href="/#contact" class="nav-cta">Бесплатная консультация</a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
+    </div>
+</nav>
+
+<main class="success-page">
+    <div>
+        <div class="success-icon">✓</div>
+        <h1 class="success-title">Спасибо за заявку!</h1>
+        <p class="success-desc">Мы получили вашу заявку и свяжемся с вами в ближайшее время.<br>Обычно отвечаем в течение 15 минут в рабочее время.</p>
+        <a href="tel:+7 (993) 600-18-06" class="success-phone">+7 (993) 600-18-06</a>
+        <span class="success-hint">Не ждёте? Звоните сейчас</span>
+        <div class="success-links">
+            <a href="/" class="btn-primary">← На главную</a>
+            <a href="https://t.me/oktum_ru" class="btn-tg" target="_blank" rel="noopener">✉ Написать в Telegram</a>
+            <a href="/uslugi/" class="btn-outline">Посмотреть услуги</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">OK<span>TUM</span></div>
+        <div class="footer-contacts">
+            <a href="tel:+7 (993) 600-18-06">+7 (993) 600-18-06</a>
+            <a href="mailto:info@oktum.ru">info@oktum.ru</a>
+            <span>Москва и Московская область</span>
+        </div>
+        <div class="footer-copy">
+            © 2026 ОКТУМ. Умная защита квартир для посуточной аренды.
+        </div>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+    // Conversion tracking — сработает, когда будет подключена Метрика/GA4
+    if (typeof ym !== 'undefined') { ym(/* ID */, 'reachGoal', 'form_submit'); }
+    if (typeof gtag !== 'undefined') { gtag('event', 'conversion', { 'send_to': '/* ID */' }); }
+</script>
+</body>
+</html>
